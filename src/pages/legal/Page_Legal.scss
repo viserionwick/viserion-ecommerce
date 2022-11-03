@@ -1,0 +1,35 @@
+@import "../../Theme.scss";
+
+.p-legal{
+    @include flexCenterColumnH;
+    margin: 30px auto;
+    padding: 0 30px;
+    width: 100%;
+    max-width: 800px;
+
+    .p-legal--header{
+        font: 800 12pt $priFont;
+        text-transform: uppercase;
+        position: relative;
+        text-align: center;
+        width: 100%;
+        padding: 20px 0;
+        border-bottom: 3px solid black;
+    }
+
+    .p-legal--wrapper{
+        width: 100%;
+        padding: 35px 35px 50px 35px;
+    
+        // Respond
+        @include respondTo(mobile) {
+            padding: 35px 0 50px 0;
+        }
+
+        .p-legal--categoriesSelect {
+            width: 100%;
+            margin: 0 0 50px 0;
+            * { margin: 0; }
+        }
+    }
+}

@@ -1,0 +1,89 @@
+@import "../../Theme.scss";
+
+// LOGIN & REGISTER PAGE
+.p-auth{
+    @include flexCenterColumnH;
+    margin: 30px auto;
+    padding: 0 30px;
+    width: 100%;
+    max-width: 800px;
+    > * {
+        border-bottom: 3px solid black;
+        &:last-child {border-bottom: none;}
+    }
+
+    .p-auth--header{
+        font: 800 12pt $priFont;
+        text-transform: uppercase;
+        position: relative;
+        text-align: center;
+        width: 100%;
+        padding: 20px 0;        
+    }
+
+    .p-auth--row{
+        @include flexColumn;
+        width: 100%;
+        margin-top: 20px;
+        
+        .p-auth--header--small{
+            text-transform: uppercase;
+            font: 700 10pt $priFont;
+        }
+        .p-auth--details{
+            @include flexColumn;
+            font: 600 9pt $priFont;
+            margin: 10px 0;
+        }
+        .p-auth--button {
+            align-self: center;
+            display: block;
+            margin: 20px 0;
+            width: 220px;
+        }
+    }
+
+    #p-auth__legal {
+        max-height: 130px;
+        overflow-y: scroll;
+    }
+}
+
+
+// USER ACCOUNT PAGE
+
+.p-account {
+    @include flexCenterColumnH;
+
+    .p-account-row {
+        @include flexCenterColumnH;
+        margin: 50px 0;
+
+        h1 {
+            font: 700 14pt $priFont;
+            margin-bottom: 20px;
+            border-bottom: 2px solid black;
+        }
+        
+        > div {
+            @include flexRow;
+            > div {
+                @include flexCenterColumnH;
+                justify-content: center;
+                margin: 20px;
+            }
+        }
+
+        span, p {
+            font: 600 10pt $priFont;
+        }
+        span { color: rgba(black, .6); }
+
+        a, button {
+            margin-top: 20px;
+            margin-left: 10px;
+            font-size: 9pt;
+            &:first-child {margin-left: 0;}
+        }
+    }
+}

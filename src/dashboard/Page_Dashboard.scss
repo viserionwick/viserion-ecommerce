@@ -1,0 +1,108 @@
+@import "../Theme.scss";
+
+$menuWidth1: 300px;
+$menuWidth2: 40px;
+
+.p-dashboard {
+    @include flexCenterV;
+    width: 100%;
+    position: relative;
+
+    .p-dashboard__menu {
+        position: fixed;
+        width: $menuWidth1;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        color: white;
+        background: $priColor;
+        overflow-y: auto;
+
+        // Respond
+        @include respondTo(tablet){
+            width: $menuWidth2;
+        }
+
+
+        .p-dashboard__menu--wrapper {
+            @include flexCenterColumnH;
+            width: 100%;
+
+            .p-dashboard__menu--header{
+                @include flexCenterColumn;
+                width: 100%;
+                margin: 10px 0;
+
+                a {
+                    font: 700 13pt $priFont;
+                    color: white;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    padding: 10px 15px;
+                    background-color: #414141;
+                    border-radius: 30px;
+                }
+                
+                a:last-child {
+                    margin-top: 10px;
+                    font: 600 9pt $priFont;
+                    padding: 7px 10px;
+
+                }
+            }
+    
+            .p-dashboard__menu--content{
+                width: 100%;
+                padding: 15px;
+                
+                div {
+                    @include flexColumn;
+                    margin-bottom: 20px;
+                    overflow: hidden;
+                    border-radius: 10px;
+                    
+                    h1 {
+                        font: 800 11pt $priFont;
+                        color: white;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        padding: 10px 15px;
+                        background-color: #414141;
+                    }
+                    
+                    a {
+                        font: 700 11pt $priFont;
+                        color: white;
+                        text-decoration: none;
+                        padding: 7px 15px;
+                        background-color: #272727;
+
+                        &:hover { background-color: #1b1b1b; }
+
+                        &.active { background-color: $priColor; }
+                    }
+                }
+
+
+                // Respond
+                @include respondTo(tablet){
+                    padding: 0;
+                    padding-top: 15px;
+                }
+            }
+        }
+
+    }
+    
+    .p-dashboard__content {
+        flex: 1;
+        margin: 30px;
+        margin-left: $menuWidth1 + 30px;
+        background: $bkgColor;
+
+        // Respond
+        @include respondTo(tablet){
+            margin-left: $menuWidth2 + 30px;
+        }
+    }
+}

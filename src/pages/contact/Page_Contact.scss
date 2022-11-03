@@ -1,0 +1,39 @@
+@import "../../Theme.scss";
+
+.p-contact{
+    @include flexCenterColumnH;
+    margin: 30px auto;
+    padding: 0 30px;
+    width: 100%;
+    max-width: 800px;
+
+    .p-contact--header{
+        font: 800 12pt $priFont;
+        text-transform: uppercase;
+        position: relative;
+        text-align: center;
+        width: 100%;
+        padding: 20px 0;
+        border-bottom: 3px solid black;
+    }
+
+    .p-contact--info {
+        text-align: center;
+        font: 600 10pt $priFont;
+        margin: 20px 20px;
+    }
+
+    .p-contact--form {
+        width: 100%;
+
+        p, a {
+            font: 600 10pt $priFont;
+        }
+    }
+
+    .p-contact--success {
+        text-align: center;
+        font: 700 12pt $priFont;
+        margin: 50px 0 300px 0;
+    }
+}

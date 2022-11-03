@@ -1,0 +1,78 @@
+@import "../../../../Theme.scss";
+
+// Panel: Manage Addresses
+.p-manageAddresses {
+    @include flexCenterColumnH;
+
+    .p-manageAddresses__addButton {
+        font: 600 9pt $priFont;
+        margin: 15px 0;
+    }
+
+    .p-manageAddresses__addresses {
+        display: flex;
+        align-items: baseline;
+        flex-flow: wrap;
+        max-width: 930px;
+
+        // Respond
+        @include respondTo(laptop) {
+            justify-content: center;
+        }
+        .card {
+            @include flexCenterColumnH;
+            width: 300px;
+            padding: 5px 15px;
+            margin: 5px;
+            border: 3px solid black;
+    
+            .title {
+                font: 800 9pt $priFont;
+                text-transform: uppercase;
+                color: #4b4b4b;
+            }
+    
+            .address {
+                @include flexColumn;
+                align-items: flex-start;
+                align-self: flex-start;
+                font: 800 11pt $priFont;
+                margin: 15px 0;
+                margin-bottom: 25px;
+            }
+    
+            .buttons {
+                @include flexCenterV;
+                justify-content: space-between;
+                width: 100%;
+                
+                button {
+                    font: 800 9pt $priFont;
+                    padding: 0px 6px;
+                    border: 1px solid black;
+                }
+    
+                .buttons--right {
+                    button { margin-left: 4px; &:first-child { margin-left: 0; } }
+                }
+            }
+        }
+
+
+        .p-manageAddresses__empty {
+            font: 600 12pt $priFont;
+            padding: 30px;
+            text-align: center; 
+        }
+    }
+    
+}
+
+
+// Panel: Add New Address
+.p-addNewAddress {
+    .p-addNewAddress--buttons {
+        margin: 20px 0 !important;
+        button {margin-right: 10px; &:last-child{margin-right: 0;}}
+    }
+}

@@ -1,0 +1,76 @@
+@import "../../Theme.scss";
+
+// Search Bar
+.p-search__searchBar {
+    @include flexCenterV;
+    width: 100%;
+    margin-top: 0 !important;
+    margin: 20px;
+    
+    input {
+        flex: 1;
+        border: 2px solid black !important;
+        
+        margin-bottom: 0 !important;
+        padding-left: 18px !important;
+        border-top-left-radius: 100px;
+        border-bottom-left-radius: 100px;
+    }
+
+    button {
+        height: 100%;
+        border: 2px solid black;
+        border-left: 0;
+        width: 50px;
+        border-top-right-radius: 100px;
+        border-bottom-right-radius: 100px;
+    }
+}
+
+
+// Search Results
+.p-search {
+    @include flexCenterColumnH;
+    overflow-x: hidden;
+    margin-bottom: 100px;
+    
+    .p-search__results {
+        display: grid;
+        width: calc(100% + 1px);
+        position: relative;
+        margin-bottom: 50px;
+        grid-template-columns: 25% 25% 25% 25%;
+    
+        // Respond
+        @include respondTo("4k"){
+            grid-template-columns: 20% 20% 20% 20% 20%;
+        }
+        @include respondTo(desktop){
+            grid-template-columns: 25% 25% 25% 25%;
+        }
+        @include respondTo(laptop){
+            grid-template-columns: 33.33% 33.33% 33.33%;
+        }
+        @include respondTo(tablet){
+            grid-template-columns: 50% 50%;
+        }
+    }
+
+    // Show More
+    .showMore{
+        width: 200px;
+    }
+
+    // Loading
+    .loadingZone {
+        height: 50vh;
+    }
+
+    // Error
+    .p-search__results--error {
+        @include flexCenter;
+        text-align: center;
+        height: 50vh;
+        font: 700 12pt $priFont;
+    }
+}

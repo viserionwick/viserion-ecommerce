@@ -1,0 +1,127 @@
+@import "../../Theme.scss";
+
+.item {
+    @include flexCenterColumnH;
+    height: 450px;
+    background: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    position: relative;
+    background: white;
+
+    // Respond
+    @include respondTo(laptop){
+        height: 400px;
+    }
+    @include respondTo(tablet){
+        height: 450px;
+    }
+    @include respondTo(mobile){
+        height: 300px;
+    }
+
+
+    .swiper-button-prev, .swiper-button-next { opacity: 0; transition: 350ms; }
+    &:hover .swiper-button-prev, &:hover .swiper-button-next { opacity: 1; }
+
+    .item--images {
+        flex: 1;
+        width: 100%;
+        img {
+            width: 100%;
+        }
+
+        // Swiperjs
+
+        .swiper-slide {
+            transform: scale(0.8);
+
+            @include respondTo(tablet){
+                transform: scale(1);
+            }
+
+            > a {
+                @include flexCenter;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+        }
+
+        .swiper-button-disabled {
+            display: none;
+        }
+
+        .swiper-button-prev, .swiper-button-next {
+            padding: 20px;
+            &::after {
+                font: 700 14pt "Font Awesome 6 Free";
+                color: $priColor;
+            }
+
+            // Respond
+            @include respondTo(tablet){
+                display: none !important;
+            }
+        }
+        .swiper-button-prev { left: 0; &::after { content: "\f053"; } }
+        .swiper-button-next { right: 0; &::after { content: "\f054"; } }
+
+        .swiper-pagination-bullet {
+            width: 6px;
+            height: 6px;
+        }
+        .swiper-pagination-bullet-active-main {
+            background: $priColor;
+        }
+        
+    }
+
+    > a {
+        width: 100%;
+        @include flexCenterColumnH;
+    }
+
+    .item--info {
+        @include flexColumn;
+        max-width: 100%;
+        width: 100%;
+        height: 83px;
+        text-align: center;
+        padding: 10px;
+        z-index: 2;
+
+        * {
+            white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+            margin-bottom: 5px;
+            &:last-child { margin-bottom: 0; }
+        }
+
+        // Respond
+        @include respondTo(mobile) {
+            height: 75px;
+        }
+
+        h1 {
+            font: 700 11pt $priFont;
+
+            // Respond
+            @include respondTo(tablet) {
+                font-size: 10pt;
+            }
+            @include respondTo(mobile) {
+                font-size: 9pt;
+            }
+        }
+        h6 {
+            font: 500 10pt $priFont;
+            
+            // Respond
+            @include respondTo(mobile) {
+                font-size: 9pt;
+            }
+        }
+    }
+}

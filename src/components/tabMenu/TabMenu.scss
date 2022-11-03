@@ -1,0 +1,143 @@
+@import "../../Theme.scss";
+
+$maxWidth: 1300px;
+
+.tabMenu{
+    @include flexCenterColumn;
+    position: sticky;
+    top: 5px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    transition: 300ms;
+    z-index: 99;
+
+    > * {
+        @include flexCenterV;
+    }
+
+    .tabMenu__title{
+        font: 800 10pt $priFont;
+        text-transform: uppercase;
+        margin: 10px 0;
+    }
+
+    .tabMenu__menu--wrapper {
+        max-width: $maxWidth;
+        width: 100%;
+        position: relative;
+    }
+
+    .tabMenu__menu--content {
+        flex: 1 1;
+        height: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        scroll-behavior: smooth;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .tabMenu__menu--loading{
+        @include flexCenterColumn;
+
+        width: 100%;
+        padding: 10px 0;
+        .skeleton {
+            &.title {
+                width: 100px;
+                height: 25px;
+                margin-bottom: 10px;
+            }
+
+            &.links {
+                max-width: $maxWidth;
+                width: 100%;
+                height: 30px;
+            }
+        }
+    }
+
+    .tabMenu__menu{
+        @include flexRow;
+        a, .tabMenu__menu--linkButtons {
+            cursor: pointer;
+            background: none;
+            border: none;
+            text-decoration: none;
+            color: black;
+            font: 600 9pt $priFont;
+            padding: 10px 7px; 
+            margin: 0px 5px; 
+            position: relative;
+            white-space: nowrap;
+            &::before{
+                content: "";
+                display: block;
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background-color: $setColor1;
+                transition: 300ms;
+            }
+            &:hover::before{
+                bottom: 3px;
+            }
+            &:active::before{
+                bottom: 0;
+                height: 5px;
+            }
+        }
+
+        .tabMenu__menu--linkButtons::before {
+            background-color: mix($setColor1, red, 50%);
+        }
+
+        a.active::before{
+            bottom: 0;
+            height: 5px;
+        }
+
+    }
+
+    .tabMenu__menu--goLeft, .tabMenu__menu--goRight {
+        @include flexCenter;
+        cursor: pointer;
+        width: 40px;
+        height: 100%;
+        position: absolute;
+        background: none;
+        border: none;
+        
+        z-index: 99;
+
+        i {
+            position: relative;
+        }
+    }
+    .tabMenu__menu--goLeft {
+        left: 0;
+        background-image: linear-gradient(to right, #fdfdfd 60%, rgba(black, .0));
+        i {
+            left: -3px;
+        }
+    }
+    .tabMenu__menu--goRight {
+        right: 0;
+        background-image: linear-gradient(to left, #fdfdfd 60%, rgba(black, .0));
+        i {
+            right: -3px;
+        }
+    }
+
+
+    // RESPOND
+    @include respondTo(tablet) {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: unset;
+    }
+}

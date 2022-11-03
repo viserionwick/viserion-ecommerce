@@ -1,0 +1,291 @@
+@import "../../../Theme.scss";
+
+.p-orderPlaced {
+    @include flexCenterColumnH;
+
+    .p-orderPlaced__headings {
+        margin: 10px 0 40px 0;
+        text-align: center;
+        > h1 { font: 800 16pt $priFont }
+        > h2 { font: 800 13pt $priFont; color: $setColor2 }
+    }
+
+    .p-orderPlaced__timeline {
+        width: 700px;
+        max-width: 100%;
+        margin: 0 30px;
+        margin-bottom: 50px;
+
+        span {
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: black;
+            border-radius: 100px;
+
+            &:last-child {
+                position: absolute;
+                left: 2px;
+                width: 99%;
+                height: 6px;
+                border-radius: 0;
+            }
+        }
+
+        > div:first-child { margin-bottom: 10px }
+
+        > div {
+            @include flexSpaceBetween;
+            align-items: center;
+            width: 100%;
+            position: relative;
+
+            > div {
+                @include flexColumn;
+                font-size: 11pt;
+                p:first-child { color: black; font-weight: 800; }
+                p:last-child { color: $setColor2; font-weight: 700; }
+            }
+            
+            > .left { align-items: flex-start; }
+            > .middle { align-items: center; }
+            > .right { align-items: flex-end; }
+        }
+    }
+
+    .p-orderPlaced__products {
+        width: 100%;
+        background-color: $bkgColor;
+        border: 1px solid black;
+
+        .p-orderPlaced__products--item {
+            @include flexRow;
+            width: 100%;
+            border-bottom: 1px solid black;
+            &:last-child { border-bottom: 0; }
+            
+            .p-orderPlaced__products--item__picture {
+                @include flexCenter;
+                overflow: hidden;
+                min-width: 185px;
+                max-width: 185px;
+                img {
+                    width: 100%;
+                }
+    
+                // Respond
+                @include respondTo(mobile) {
+                    min-width: 130px;
+                    max-width: 130px;
+                    img {
+                        width: 120%;
+                    }
+                }
+            }
+            .p-orderPlaced__products--item--details {
+                @include flexColumn;
+                align-items: flex-start;
+                justify-content: space-between;
+                flex: 1;
+                padding: 10px 15px 7px 15px;
+    
+                > div { width: 100% }
+    
+                .p-orderPlaced__products--item--details--titleAndPrice {
+                    @include flexRow;
+                    justify-content: space-between;
+                    .p-orderPlaced__products--item--details__title {
+                        
+                        font: 800 9pt $priFont;
+                        &:hover { text-decoration: underline; }
+                    }
+                    .p-orderPlaced__products--item--details__totalPrice {
+                        @include flexCenterV;
+                        min-width: fit-content;
+                        font: 800 9pt $priFont;
+                    }
+                }
+    
+                
+                .p-orderPlaced__products--item--details--features {
+                    @include flexColumn;
+                    font: 700 9pt $priFont;
+                    margin: 18px 0;
+    
+                    > div {
+                        @include flexCenterV;
+                        margin-bottom: 10px;
+                        &:last-child { margin-bottom: 0; }
+                        
+                        
+                        > div:first-child {
+                            margin-right: 10px; 
+                        }
+                    }
+    
+                    .p-orderPlaced__products--item--details--features__color {
+                        @include flexCenterV;
+                        span {
+                            display: block;
+                            width: 16px;
+                            height: 16px;
+                            border-radius: 20px;
+                            /* box-shadow: 0 0 7px 2px rgba(black, .28); */
+                        }
+                    }
+    
+                    .p-orderPlaced__products--item--details--features__size {
+                        span { font-weight: 900; }
+                    }
+    
+                    .p-orderPlaced__products--item--details--features__quantity {
+                        > div:last-child {
+                            @include flexCenterV;
+                        }
+    
+                        .p-orderPlaced__products--item--features__quantity--limitError {
+                            font: 600 9pt $priFont;
+                        }
+                    }
+                    
+                }
+    
+                .p-orderPlaced__products--item--details--buttonsAndInfo {
+                    @include flexCenterV;
+                    justify-content: space-between;
+                    .p-orderPlaced__products--item--details__preOrderDate {
+                        font: 700 9pt $priFont;
+                    }
+                }
+            }
+        }
+    }
+
+    // AFTER MATH
+    .p-orderPlaced__paidTotal--afterMath {
+        width: 100%;
+        background-color: $bkgColor;
+        border: 1px solid black;
+        border-top: 0;
+        margin-bottom: 50px;
+    
+        // Respond
+        @include respondTo(tablet){
+            border-left: 0;
+            border-right: 0;
+        }
+    
+        > * {
+            border-bottom: 1px solid black;
+            &:last-child { border-bottom: 0; }
+        }
+    
+        .p-orderPlaced__paidTotal--afterMath__coupon {
+            @include flexCenterColumnH;
+            padding: 30px 190px;
+    
+            > div {
+                @include flexCenterH;
+                input {
+                    flex: 1;
+                    margin: 0 10px 0 0 !important;
+                    border: 2px solid black;
+                    border-radius: 100px;
+                    &:focus {
+                        border: 2px solid black;
+                    }
+                }
+                button {
+                    font: 600 9pt $priFont;
+                    border-width: 1px;
+                }
+            }
+    
+            p {
+                margin: 20px 0 0 0;
+                &.success { color: $sucColor; }
+                &.error { color: $errColor; }
+            }
+            
+    
+            @include respondTo(tablet) {
+                padding: 30px 60px;
+            }
+        }
+    
+        .p-orderPlaced__paidTotal--afterMath__total {
+            @include flexColumn;
+            padding: 30px;
+            .p-orderPlaced__paidTotal--afterMath__total--line {
+                @include flexCenterV;
+                justify-content: space-between;
+                padding-bottom: 10px;
+                &:last-child { padding-bottom: 0; }
+    
+    
+                h4, p {
+                    @include flexCenterV;
+                    font: 500 10pt $priFont;
+                    text-transform: uppercase;
+                    > button {
+                        padding: 0px 6px;
+                        margin-right: 5px;
+                        border: 1px solid black;
+                        font: 800 8pt $priFont;
+                    }
+                }
+    
+                &.total {
+                    h4, p {
+                        border-bottom: 2px solid black;
+                        font: 800 11pt $priFont;
+                    }
+                }
+            }
+        }
+    }
+
+    .p-orderPlaced__addresses {
+        @include flexCenterH;
+        width: 100%;
+        flex-wrap: wrap;
+
+        .p-orderPlaced__addresses--box {
+            background-color: $bkgColor;
+            border: 1px solid black;
+            padding: 14px;
+            margin-right: 14px;
+            margin-bottom: 14px;
+            /* &:last-child { margin-right: 0; } */
+
+            h1 {
+                font: 700 11pt $priFont;
+                text-transform: uppercase;
+                text-align: center;
+                margin-bottom: 20px;
+                color: $setColor2;
+            }
+
+            p {
+                font: 800 11pt $priFont;
+                margin-bottom: 5px;
+                &:last-child { margin-bottom: 0; }
+
+
+            }
+        }
+    }
+
+    .p-orderPlaced__buttons {
+        @include flexCenterH;
+        width: 100%;
+        margin-top: 50px;
+        
+        button {
+            font: 700 8pt $priFont;
+            padding: 4px 10px;
+            margin-right: 7px;
+            &:last-child { margin-right: 0; }
+        }
+    }
+}

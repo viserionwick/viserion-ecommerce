@@ -1,0 +1,46 @@
+@import "../../../Theme.scss";
+
+.p-mailingList {
+    @include flexCenterColumnH;
+    
+    > div {
+        @include flexCenterColumnH;
+        margin: 0 100px 30px 100px;
+        max-width: 500px;
+
+        // Respond
+        @include respondTo(tablet) {
+            margin: 0 50px 30px 50px;
+        }
+        @include respondTo(mobile) {
+            margin: 0 10px 30px 10px;
+        }
+        
+        
+
+        form {
+            @include flexCenterColumnH;
+            width: 100%;
+
+            .p-mailingList__info, .p-mailingList__legal, .p-mailingList__legal a {
+                width: 100%;
+                font: 500 11pt $priFont;
+                color: $setColor2;
+                margin: 0;
+            }
+            .p-mailingList__legal, .p-mailingList__legal a { font-size: 8pt; }
+            .p-mailingList__legal a { text-decoration: underline; }
+
+
+            input {
+                width: 100%;
+                margin: 20px !important;
+            }
+
+            button {
+                font-size: 9pt;
+                margin-top: 20px;
+            }
+        }
+    }
+}
