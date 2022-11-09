@@ -1,12 +1,12 @@
 // Essentials
+import { useEffect, useState } from "react";
 
 // Contexts
-import { useEffect, useState } from "react";
 import { useAuthContext } from "../contexts/Auth";
 
 const useTabMenuLinks = () => {
 
-    const { currentUserData: userData, logOut } = useAuthContext();
+    const { currentUserData: userData, passRoles, logOut } = useAuthContext();
 
     // Tab Menu
     const initLinks = [
@@ -32,8 +32,8 @@ const useTabMenuLinks = () => {
         
 
         // Check Role
-        if(userData){
-            if(userData.role === "admin" || userData.role === "editor"){
+        if(userData && passRoles.length !== 0){
+            if(passRoles.includes(userData.role)){
                 const newLinks = [
                     {
                         title: "Orders",
@@ -54,6 +54,8 @@ const useTabMenuLinks = () => {
                 ];
     
                 setTabMenuLinks(newLinks);
+            } else {
+                setTabMenuLinks(initLinks);
             }
         }
         

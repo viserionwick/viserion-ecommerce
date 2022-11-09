@@ -434,14 +434,14 @@ function PAGE_PRODUCT() {
                                         :
                                         product.sizes[chooseSize].colors.map((color, i) => (
                                         <label htmlFor={color} key={i}>
-                                        <input
-                                            type="radio"
-                                            name="selectColor"
-                                            id={color}
-                                            value={color}
-                                            checked={chooseColor === color}
-                                            onChange={handleChoose}
-                                        />
+                                            <input
+                                                type="radio"
+                                                name="selectColor"
+                                                id={color}
+                                                value={color}
+                                                checked={chooseColor === color}
+                                                onChange={handleChoose}
+                                            />
                                         <span style={{background: color}} />
                                         </label>
                                         ))

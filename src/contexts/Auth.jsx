@@ -19,6 +19,7 @@ import {
 } from "firebase/auth";
 
 // Hooks
+import useFetch from "../hooks/useFetch";
 import useCookieConsent from "../hooks/useCookieConsent/useCookieConsent";
 
 
@@ -30,6 +31,7 @@ import { useAtom } from "jotai";
 import { addressBook_guest_atom } from "../components/panels/auth/Panel_ManageAddresses/Panel_ManageAddresses";
 
 export const isAuth_atom = atomWithStorage("isAuth", false);
+/* export const userRoleAccess_atom = atom([]); */
 
 
 // Context Reach
@@ -73,26 +75,6 @@ export const AuthProvider = ({children}) => {
     const fetchUserData = (userId) => {
         if(userId !== null){
             const docRef = doc(db, "users", userId);
-            /* getDoc(docRef)
-                .then((doc) => {
-                    const data = doc.data();
-                    if(data){
-                        setLoading(true);
-                        if(data) {
-                            if(data.length !== 0){
-                                setCurrentUserData(data);
-                                setLoading(false);
-                            }else{
-                                setCurrentUserData(null);
-                                setLoading(false);
-                            }
-                        }
-                    }else{
-                        setCurrentUserData(null);
-                        setLoading(false);
-                    }
-                }); */
-            
             onSnapshot(docRef, (doc) => {
                 const data = doc.data();
                 if(data){
@@ -120,15 +102,29 @@ export const AuthProvider = ({children}) => {
     }
 
 
+    // User Roles
+    const { data: roles } = useFetch("roles", undefined, undefined, undefined, undefined, true);
+    const [ passRoles, setPassRoles ] = useState([]);
+    const [ userRoleAccess, setUserRoleAccess ] = useState([]);
+    /* const [ userRoleAccess, setUserRoleAccess ] = useAtom(userRoleAccess_atom); */
+
+    useEffect(() => {
+        if(roles) {
+            let allRoles = [];
+
+            roles.map((role) => {
+            allRoles = [...allRoles, role.id];
+            })
+
+            setPassRoles(allRoles);
+
+            const access = roles.filter(role => role.roleName === currentUserData.role)[0];
+            setUserRoleAccess(access);
+        }
+    }, [roles, currentUserData]);
+
+
     // Sign Up
-
-    /*
-    ROLES for CRUD
-    Admin: All
-    Editor: Only Products
-    User: Only Own Data 
-    */
-
     const signUp = (email, password, firstName, lastName, country, civility, subscriptionAgreement) => {
         setLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
@@ -314,22 +310,32 @@ export const AuthProvider = ({children}) => {
 
 
     const value = {
+        /* States: User */
         currentUser,
         currentUserData,
         loading,
         authLoading,
         authEditResponse,
         authEditLoading,
+
+        /* States: Roles */
+        userRoleAccess,
+        passRoles,
+
+        /* States: Errors */
         signInError,
         signUpError,
+
+        /* Funcs: User */
         signIn,
         signUp,
+        logOut,
         updateAuth,
         passwordReset,
-        logOut,
         forgotPassword,
         deleteAccount,
 
+        /* Funcs: Signals */
         setAuthEditResponse
     }
 

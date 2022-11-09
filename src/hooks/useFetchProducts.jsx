@@ -28,6 +28,7 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
   const fetchProducts = (fetchLimit, fieldName = false, fieldValue, isFeildArray = false, category = null, explore = false, isSearch = false, isRealTime = false) => {
     let oldCategory = null;
     let oldSearch = null;
+    let oldFetchAll = null;
 
 
     const collRef = collection(db, "products");
@@ -42,15 +43,27 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
             {...doc.data(), id: doc.id}
           ));          
           if (data) {
-              if(data.length !== 0){ // some data found
+              if(data.length !== 0){ // if data found
                 if(!isSearch) {
                   if (oldCategory !== newCategory) { // new category
                     setProductsData(data);
                     oldCategory = newCategory;
                   } else { // same category
-                    setProductsData(prevState => (
-                      [ ...prevState, ...data]
-                    ))    
+                    if (fieldName) {
+                      setProductsData(prevState => (
+                        [ ...prevState, ...data]
+                      ))  
+                    } else { // get all products
+                       if (!oldFetchAll) {
+                        setProductsData(data);
+                        oldFetchAll = true;
+                      } else {
+                        setProductsData(prevState => (
+                          [ ...prevState, ...data]
+                        ))
+                      }
+                    }
+                    
                   }
                 } else {
                   if (oldSearch !== newSearch) { // new search
@@ -75,7 +88,7 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
                   queryCalc(lastVisibleFetch); // fetch new docs starting from the last.
                 });
 
-              } else{ // no data found
+              } else{ // if no data found
                 if(!isSearch){
                   if (oldCategory !== newCategory) { // new category
                     setProductsData(null);
@@ -180,7 +193,7 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
 
             querySend(q, category);
           } else {
-            let q = query(collRef);
+            let q = query(collRef, orderBy("createdAt", "desc"), limit(fetchLimit));
             querySend(q);
           }
         } else {
@@ -215,7 +228,7 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
             let q = query(collRef, where("category", "in", category), orderBy("createdAt", "desc"), startAfter(lastVisibleFetch), limit(fetchLimit));
             querySend(q, category);
           } else {
-            let q = query(collRef);
+            let q = query(collRef, orderBy("createdAt", "desc"), startAfter(lastVisibleFetch), limit(fetchLimit));
             querySend(q);
           }
         } else {

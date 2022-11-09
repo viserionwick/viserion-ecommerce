@@ -10,10 +10,6 @@ import { useAuthContext } from "../../../../contexts/Auth";
 import useFetch from "../../../../hooks/useFetch";
 import useTabTitle from "../../../../hooks/useTabTitle";
 
-// Components
-import TABMENU from "../../../../components/tabMenu/TabMenu";
-import TABMENU_ACCOUNT from "../../../../components/tabMenu/auth/account/tabMenu_Account";
-
 // Panels
 import PANEL_ORDERPLACED from "../../../../components/panels/checkout/Panel_OrderPlaced";
 
@@ -100,9 +96,6 @@ const PAGE_ORDERS = () => {
     showPanel(<PANEL_ORDERPLACED order={order} />, "Order Details");
     console.log(order);
   }
-
-  // Tab Menu
-  const { tabMenuLinks } = TABMENU_ACCOUNT();
 
   return (
     <>

@@ -111,10 +111,10 @@ const PAGE_SEARCH = () => {
               </div>
               {
                 !fetchEnded ?
-                !fetchLoading ? 
-                <button onClick={fetchMore} className="showMore buttonS2">Show More</button>
-                :
-                <button className="showMore buttonS2" disabled>Loading...</button>
+                  !fetchLoading ? 
+                  <button onClick={fetchMore} className="showMore buttonS2">Show More</button>
+                  :
+                  <button className="showMore buttonS2" disabled>Loading...</button>
                 :
                 <></>
               }

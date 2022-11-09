@@ -8,10 +8,6 @@ import { usePanelContext } from '../../../contexts/Panel';
 // Hooks
 import useTabTitle from '../../../hooks/useTabTitle';
 
-// Components
-import TABMENU from '../../../components/tabMenu/TabMenu';
-import TABMENU_ACCOUNT from '../../../components/tabMenu/auth/account/tabMenu_Account';
-
 // Panels
 import PANEL_EDITPROFILE from '../../../components/panels/auth/Panel_EditProfile/Panel_EditProfile';
 import PANEL_CHANGEPASSWORD from '../../../components/panels/auth/Panel_ChangePassword';
@@ -40,10 +36,6 @@ const PAGE_PROFILE = () => {
     const manageAddresses = () => {
         showPanel(<PANEL_MANAGEADDRESSES />, "Manage Addresses" );
     }
-    
-
-    // Tab Menu
-    const { tabMenuLinks } = TABMENU_ACCOUNT();
 
   return (
     <>

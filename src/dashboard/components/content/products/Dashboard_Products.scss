@@ -1,1 +1,148 @@
 @import "../../../../Theme.scss";
+
+.dashboard-products {
+
+    .dashboard-products__addProduct {
+        padding: 20px 0;
+    }
+
+    .dashboard-products__title {
+        margin-top: 30px;
+    }
+    
+    .dashboard-products__list {
+        @include flexCenterColumnH;
+        border: 1px solid black;
+        border-bottom: 0;
+        margin-top: 10px;
+        background: white;
+
+        .dashboard-products__list--item {
+            @include flexRow;
+            width: 100%;
+            border-bottom: 1px solid black;
+
+            .dashboard-products__list--item__picture {
+                @include flexCenter;
+                overflow: hidden;
+                min-width: 185px;
+                max-width: 185px;
+                border-right: 1px solid black;
+
+                img {
+                    width: 100%;
+                }
+    
+                // Respond
+                @include respondTo(mobile) {
+                    min-width: 130px;
+                    max-width: 130px;
+                    img {
+                        width: 120%;
+                    }
+                }
+            }
+
+            .dashboard-products__list--item__details {
+                @include flexColumn;
+                align-items: flex-start;
+                flex: 1;
+                padding: 20px;
+
+                > div { width: 100% }
+                
+                .dashboard-products__list--item__details--tags {
+                    display: flex;
+                    flex-direction: column;
+                    text-transform: uppercase;
+
+                    > div {
+                        display: flex;
+                        margin-bottom: 5px;
+
+                        div {
+                            font: 600 9pt $priFont;
+                            background: #cccccc;
+                            padding: 3px 5px;
+                            margin-right: 5px;
+                        }
+
+                        .dashboard-products__list--item__details__status {
+                            &.status0 {background: #c99999;}
+                            &.status1 {background: #aacfa1;}
+                            &.status2 {background: #d1cf81;}
+                            &.status3 {background: #cccccc;}
+                        }
+
+                        .dashboard-products__list--item__details__explore {
+                            background: #b4a8d4;
+                        }
+                    }
+
+                    .dashboard-products__list--item__details__title {
+                        font: 800 11pt $priFont;
+                        &:hover { text-decoration: underline; }
+                    }
+                }
+
+                .dashboard-products__list--item__details--features {
+                    @include flexColumn;
+                    font: 700 9pt $priFont;
+                    margin-top: 30px;
+    
+                    /* > div {
+                        @include flexCenterV;
+                        margin-bottom: 10px;
+                        &:last-child { margin-bottom: 0; }
+                        
+                        
+                        > div:first-child {
+                            margin-right: 10px; 
+                        }
+                    } */
+
+                    .sizes {
+                        margin-bottom: 15px;
+                        span {
+                            font: 600 9pt $priFont;
+                            padding: 3px 5px;
+                            margin-right: 8px;
+                            border: 1px solid #b4b4b4;
+                        }
+                    }
+
+                    .colors {
+                        @include flexCenterV;
+                        span {
+                            display: block;
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 20px;
+                            margin-right: 8px;
+                            box-shadow: 0 0 7px 2px rgba(black, .28);
+                        }
+                    }                    
+                }
+            }
+
+            .dashboard-products__list--item__details--buttons {
+                @include flexCenter;
+                flex-direction: column;
+                padding: 0 20px;
+                border-left: 1px solid black;
+
+                button {
+                    padding: 4px 13px;
+                    font: 800 9pt $priFont;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+
+    .dashboard-products__fetchMore {
+        @include flexCenter;
+        margin-top: 30px;
+        button {width: 200px;}
+    }
+}

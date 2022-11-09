@@ -1,5 +1,4 @@
 // Essentials
-import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
 // Contexts
@@ -9,10 +8,6 @@ import { useAuthContext } from "../contexts/Auth";
 import D_CONTENT from "./components/layout/d_Content";
 import D_MENU from "./components/layout/d_Menu";
 
-
-// Hooks
-import useFetch from "../hooks/useFetch";
-
 // Style
 import "./Page_Dashboard.scss"
 
@@ -20,24 +15,7 @@ import "./Page_Dashboard.scss"
 const PAGE_DASHBOARD = () => {
 
   // Auth
-  const { currentUser: user, currentUserData: userData, authLoading: loading } = useAuthContext();
-
-  // Roles
-  const { data: roles } = useFetch("roles");
-  const [passRoles, setPassRoles] = useState([]);
-
-  useEffect(() => {
-    if(roles) {
-      let allRoles = [];
-
-      roles.map((role) => {
-        allRoles = [...allRoles, role.id];
-      })
-
-      setPassRoles(allRoles)
-    }
-  }, [roles]);
-
+  const { currentUser: user, currentUserData: userData, passRoles, authLoading: loading } = useAuthContext();
 
   return (
     <div className="p-dashboard">
