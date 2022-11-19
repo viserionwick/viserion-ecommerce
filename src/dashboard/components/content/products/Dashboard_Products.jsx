@@ -1,10 +1,9 @@
 // Essentials
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 // Firebase
 import { db } from "../../../../firebase/Config";
-import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
 
 // Contexts
 import { useAuthContext } from "../../../../contexts/Auth";
@@ -12,6 +11,10 @@ import { usePanelContext } from "../../../../contexts/Panel";
 
 // Hooks
 import useFetchProducts from "../../../../hooks/useFetchProducts";
+
+// Panels
+import PANEL_ADDPRODUCT from "../../panels/Panel_AddProduct";
+import PANEL_REMOVEPRODUCT from "../../panels/Panel_RemoveProduct";
 
 // Style
 import "./Dashboard_Products.scss"
@@ -22,14 +25,20 @@ const DASHBOARD_PRODUCTS = () => {
   const { userRoleAccess } = useAuthContext();
 
   // Fetch Products
-  const { fetchProducts, fetchMore, productsData: products, fetchEnded, fetchLoading } = useFetchProducts();
+  const { fetchProducts, fetchMore, productsData, setProductsData, fetchEnded, fetchLoading } = useFetchProducts();
+
+  const [products, setProducts] = useState([]);
+
   useEffect(() => {
     fetchProducts(10);
   }, []);
 
+  useEffect(() => {
+    productsData && setProducts(productsData);
+  }, [productsData]);
 
   // Panel Context
-  const { panel_Agreement, closePanel } = usePanelContext();
+  const { showPanel } = usePanelContext();
   
 
   const [formData, setFormData] = useState({
@@ -81,8 +90,7 @@ const DASHBOARD_PRODUCTS = () => {
 
   
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     const regex = /\s{2,}/g;
     
     const makeUrl = (input) => {
@@ -121,12 +129,12 @@ const DASHBOARD_PRODUCTS = () => {
     // Add The Order
     console.log(newFormData);
 
-    /* addDoc(collection(db, "products"), newFormData)
+    addDoc(collection(db, "products"), newFormData)
     .then((docRef) => {
         updateDoc(docRef, {
           productId: docRef.id
         })
-    }) */
+    })
   }
 
 
@@ -193,7 +201,7 @@ const DASHBOARD_PRODUCTS = () => {
         <span key={i}>
           { size }
         </span>
-        : /* Make "out of stock" spans gray */
+        : /* Make "out of stock" sizes gray */
         <span style={{color: "gray"}} key={i}>
           { size }
         </span>
@@ -201,27 +209,21 @@ const DASHBOARD_PRODUCTS = () => {
   }
   
 
+  // Button: Add Product
+  const onAdd = () => {
+    handleSubmit();
+    /* showPanel(<PANEL_ADDPRODUCT />, "Add Product") */
+  }
 
-  // Function: Edit Product
+  // Button: Edit Product
   const onEdit = (productId) => {
     console.log("edit: " + productId);
   }
 
-  // Function: Remove Product
+
+  // Button: Remove Product
   const onRemove = (productId) => {
-    console.log("remove: " + productId);
-
-    const onAgree = () => {
-      console.log("removed");
-      closePanel();
-    }
-
-    const onCancel = () => {
-      console.log("cancelled");
-      closePanel();
-    }
-
-    panel_Agreement("Remove Product", "Are you sure you want to remove this product from the store? You won't be able to reverse this removal.", "Remove", "Cancel", onAgree, onCancel);
+    showPanel(<PANEL_REMOVEPRODUCT productId={productId} products={products} setProducts={setProducts} />, "Remove Product");
   }
 
 
@@ -233,7 +235,7 @@ const DASHBOARD_PRODUCTS = () => {
         userRoleAccess.products === "all" || userRoleAccess.products.includes("add") ?
 
         <div className="dashboard-products__addProduct">
-          <button type='submit' className=" buttonS2">ADD A NEW PRODUCT</button>
+          <button onClick={onAdd} className=" buttonS2">ADD A NEW PRODUCT</button>
         </div>
 
         : <></>
@@ -242,87 +244,87 @@ const DASHBOARD_PRODUCTS = () => {
       { 
         userRoleAccess.products && products.length > 0 ?
         <>
-        <h3 className="dashboard-products__title">Recently Added</h3>
+          <h3 className="dashboard-products__title">Recently Added</h3>
 
-        <div className="dashboard-products__list">
-          {
-            products.map((product, i) => (
-            <div className="dashboard-products__list--item" key={i}>
-              <a href={"/product/" + product.url} target="_blank" className="dashboard-products__list--item__picture buttonClear">
-                <img src={ product.images[product.images.baseImagesColor][0] } alt="item_image" />
-              </a>
+          <div className="dashboard-products__list">
+            {
+              products.map((product, i) => (
+              <div className="dashboard-products__list--item" key={i}>
+                <a href={"/product/" + product.url} target="_blank" className="dashboard-products__list--item__picture buttonClear">
+                  <img src={ product.images[product.images.baseImagesColor][0] } alt="item_image" />
+                </a>
 
-              <div className="dashboard-products__list--item__details">
-                <div className="dashboard-products__list--item__details--tags">
-                  <div>
-                    <div className="dashboard-products__list--item__details__totalPrice">
-                      $ { product.basePrice }
-                    </div>
-                    <div className="dashboard-products__list--item__details__category">
-                      { product.category }
-                    </div>
-
-                    { renderStatusLabel(product) }
-                    
-                    {
-                      product.subCategories.includes("explorePage") &&
-                      <div className="dashboard-products__list--item__details__explore">
-                        EXPLORE PAGE
+                <div className="dashboard-products__list--item__details">
+                  <div className="dashboard-products__list--item__details--tags">
+                    <div>
+                      <div className="dashboard-products__list--item__details__totalPrice">
+                        $ { product.basePrice }
                       </div>
-                    }
+                      <div className="dashboard-products__list--item__details__category">
+                        { product.category }
+                      </div>
+
+                      { renderStatusLabel(product) }
+                      
+                      {
+                        product.subCategories.includes("explorePage") &&
+                        <div className="dashboard-products__list--item__details__explore">
+                          EXPLORE PAGE
+                        </div>
+                      }
+                    </div>
+                    <a href={"/product/" + product.url} target="_blank" className='dashboard-products__list--item__details__title buttonClear'>
+                      { product.title }
+                    </a>
                   </div>
-                  <a href={"/product/" + product.url} target="_blank" className='dashboard-products__list--item__details__title buttonClear'>
-                    { product.title }
-                  </a>
+
+                  <div className="dashboard-products__list--item__details--features">
+                    <div className="sizes">
+                      { renderSizes(product) }
+                    </div>
+                    <div className="colors">
+                      { renderUniqueColors(product) }
+                    </div>
+                  </div>
+                  
                 </div>
 
-                <div className="dashboard-products__list--item__details--features">
-                  <div className="sizes">
-                    { renderSizes(product) }
+                {
+                  userRoleAccess.products === "all" || userRoleAccess.products.includes("edit") || userRoleAccess.products.includes("remove") ?
+                  <div className="dashboard-products__list--item__details--buttons">
+                  {
+                    userRoleAccess.products === "all" || userRoleAccess.products.includes("edit") ?
+                    <button className='p-shoppingBag__list--item--details__editButton buttonS2' onClick={() => onEdit(product.productId)}> EDIT </button>
+                    : <></>
+                  }
+
+                  {
+                    userRoleAccess.products === "all" || userRoleAccess.products.includes("remove") ?
+                    <button className='p-shoppingBag__list--item--details__removeButton buttonS1' onClick={() => onRemove(product.productId)}> REMOVE </button>
+                    : <></>
+                  }
                   </div>
-                  <div className="colors">
-                    { renderUniqueColors(product) }
-                  </div>
-                </div>
+                  : <></>
+                }
                 
               </div>
+              ))
+            }
+          </div>
 
-              {
-                userRoleAccess.products === "all" || userRoleAccess.products.includes("edit") || userRoleAccess.products.includes("remove") ?
-                <div className="dashboard-products__list--item__details--buttons">
+          {
+            !fetchEnded ?
+              <div className="dashboard-products__fetchMore">
                 {
-                  userRoleAccess.products === "all" || userRoleAccess.products.includes("edit") ?
-                  <button className='p-shoppingBag__list--item--details__editButton buttonS2' onClick={() => onEdit(product.productId)}> EDIT </button>
-                  : <></>
+                  !fetchLoading ? 
+                  <button onClick={fetchMore} className="showMore buttonS2">Show More</button>
+                  :
+                  <button className="showMore buttonS2" disabled>Loading...</button>
                 }
-
-                {
-                  userRoleAccess.products === "all" || userRoleAccess.products.includes("remove") ?
-                  <button className='p-shoppingBag__list--item--details__removeButton buttonS1' onClick={() => onRemove(product.productId)}> REMOVE </button>
-                  : <></>
-                }
-                </div>
-                : <></>
-              }
-              
-            </div>
-            ))
+              </div>
+            :
+            <></>
           }
-        </div>
-
-        {
-          !fetchEnded ?
-            <div className="dashboard-products__fetchMore">
-              {
-                !fetchLoading ? 
-                <button onClick={fetchMore} className="showMore buttonS2">Show More</button>
-                :
-                <button className="showMore buttonS2" disabled>Loading...</button>
-              }
-            </div>
-          :
-          <></>
-        }
         </>
 
         : // Loading

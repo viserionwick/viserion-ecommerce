@@ -62,7 +62,12 @@
     .p-orders__list--item {
         @include flexRow;
         width: 100%;
+        background: white;
         border-bottom: 1px solid black;
+
+        &:last-child {
+            border-bottom: 0;
+        }
         
         .p-orders__list--item__picture {
             @include flexCenter;

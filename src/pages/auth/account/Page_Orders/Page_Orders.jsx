@@ -22,7 +22,7 @@ const PAGE_ORDERS = () => {
   // Title
   useTabTitle("My Orders");
 
-  const { currentUser: user, currentUserData: userData, loading } = useAuthContext();
+  const { currentUserData: userData} = useAuthContext();
   const { showPanel } = usePanelContext();
 
   // Fetch

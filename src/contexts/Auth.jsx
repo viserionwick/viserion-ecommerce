@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 // Firebase
-import { doc, setDoc, deleteDoc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { doc, setDoc, getDoc, deleteDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db, auth } from "../firebase/Config";
 import {
     createUserWithEmailAndPassword,
@@ -31,7 +31,6 @@ import { useAtom } from "jotai";
 import { addressBook_guest_atom } from "../components/panels/auth/Panel_ManageAddresses/Panel_ManageAddresses";
 
 export const isAuth_atom = atomWithStorage("isAuth", false);
-/* export const userRoleAccess_atom = atom([]); */
 
 
 // Context Reach
@@ -47,10 +46,6 @@ export const useAuthContext = () => useContext(AuthContext);
 
 // Provider
 export const AuthProvider = ({children}) => {
-
-    // Cookie Consent
-    /* const { isCookieConsented } = useCookieConsent();
-    console.log(isCookieConsented); */
 
     // Redirect
     let navigate = useNavigate();
@@ -103,13 +98,16 @@ export const AuthProvider = ({children}) => {
 
 
     // User Roles
-    const { data: roles } = useFetch("roles", undefined, undefined, undefined, undefined, true);
+    const { fetch, data: roles } = useFetch();
     const [ passRoles, setPassRoles ] = useState([]);
     const [ userRoleAccess, setUserRoleAccess ] = useState([]);
-    /* const [ userRoleAccess, setUserRoleAccess ] = useAtom(userRoleAccess_atom); */
 
     useEffect(() => {
-        if(roles) {
+        currentUserData && fetch("roles", undefined, undefined, undefined, undefined, true);
+    }, [currentUserData]);
+
+    useEffect(() => {
+        if(roles && currentUserData) {
             let allRoles = [];
 
             roles.map((role) => {
@@ -122,6 +120,31 @@ export const AuthProvider = ({children}) => {
             setUserRoleAccess(access);
         }
     }, [roles, currentUserData]);
+
+
+    // Check User Permission
+    const checkUserPermission = async (category, permission) => {
+        // Check User
+        const checkUser = await getDoc(doc(db, "users", currentUserData.userId))
+        const user = checkUser.data();
+        if(user) {
+            if(user.length !== 0){ 
+                // Check Role
+                const checkRole = await getDoc(doc(db, "roles", user.role)) 
+                const role = checkRole.data();
+                if(role) {
+                    if(role.length !== 0){
+                        if (role[category]) {
+                            const userRole = role[category];
+                            if (userRole === "all" || userRole.includes(permission)) {
+                                return true;
+                            } else return false; 
+                        } else return false; 
+                    } else return false; 
+                } else return false; 
+            } else return false; 
+        } else return false;
+    }
 
 
     // Sign Up
@@ -334,6 +357,9 @@ export const AuthProvider = ({children}) => {
         passwordReset,
         forgotPassword,
         deleteAccount,
+
+        /* Funcs: Roles */
+        checkUserPermission,
 
         /* Funcs: Signals */
         setAuthEditResponse

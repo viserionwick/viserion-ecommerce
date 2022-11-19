@@ -1,12 +1,10 @@
 // Essentials
 import { useEffect, useState } from 'react';
+import { useAtom } from 'jotai';
+import { shoppingBagList_atom } from '../pages/bag/Page_ShoppingBag';
 
-// Firebase
-import { analytics } from '../firebase/Config';
-import { logEvent } from 'firebase/analytics';
-
-// Hooks
-import useCookieConsent from '../hooks/useCookieConsent/useCookieConsent';
+// Components
+import LISTITEMS from '../components/products/ListItems';
 
 // Style
 import "./testGround.scss"
@@ -14,23 +12,14 @@ import "./testGround.scss"
 
 const TESTGROUND = () => {
 
-  const { isCookieConsented } = useCookieConsent();
-
-    useEffect(() => {
-        logEvent(analytics, 'testing', { test: 'yeah'});
-    }, []);
-
-    const testing = () => {
-      logEvent(analytics, 'testing', { test: 'yeah'});
-    }
-
-    useEffect(() => {
-      console.log("testGround.js cookie consent: ", isCookieConsented);
-    }, [isCookieConsented]);
+  const [bagList, setBagList] = useAtom(shoppingBagList_atom);
 
   return (
     <div className='testGround'>
-      <button onClick={testing}>test</button>
+      {
+        bagList &&
+        <LISTITEMS list={bagList}/>
+      }
     </div>
   )
 }

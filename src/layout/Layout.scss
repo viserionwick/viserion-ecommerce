@@ -442,6 +442,7 @@
         .l-header__shoppingBag__list--item {
             @include flexRow;
             width: 100%;
+            background: white;
             border-bottom: 1px solid black;
             &:last-child { margin-bottom: 60px; }
             

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { db } from '../firebase/Config';
 import { collection, getDocs, onSnapshot, query, where, limit, startAfter, orderBy } from 'firebase/firestore';
 
-const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldValue, isFeildArray = false, category = null, explore = false, isSearch = false, isRealTime = false) => {
+const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldValue, isFeildArray = false, category = null, explore = false, isSearch = false) => {
 
   const [productsData, setProductsData] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true); // initially "true" then when fetching
@@ -20,15 +20,15 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
   
   useEffect(() => {
     if (!isFunc) {
-      fetchProducts(fetchLimit, fieldName, fieldValue, isFeildArray, category, explore, isSearch, isRealTime)
+      fetchProducts(fetchLimit, fieldName, fieldValue, isFeildArray, category, explore, isSearch)
     }
     
-  }, [ fieldName, fieldValue, isFeildArray, isSearch, isRealTime ])
+  }, [ fieldName, fieldValue, isFeildArray, isSearch ])
   
-  const fetchProducts = (fetchLimit, fieldName = false, fieldValue, isFeildArray = false, category = null, explore = false, isSearch = false, isRealTime = false) => {
+  const fetchProducts = (fetchLimit, fieldName = false, fieldValue, isFeildArray = false, category = null, explore = false, isSearch = false) => {
     let oldCategory = null;
     let oldSearch = null;
-    let oldFetchAll = null;
+    let oldFetch = 0;
 
 
     const collRef = collection(db, "products");
@@ -36,101 +36,115 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
     setProductsLoadingFetch(true);
 
     const querySend = (q, newCategory = null, newSearch = fieldValue) => {
-      if (!isRealTime) {
-        getDocs(q)
-        .then((snapshot) => {
-          const data = snapshot.docs.map((doc) => (
-            {...doc.data(), id: doc.id}
-          ));          
-          if (data) {
-              if(data.length !== 0){ // if data found
-                if(!isSearch) {
-                  if (oldCategory !== newCategory) { // new category
-                    setProductsData(data);
-                    oldCategory = newCategory;
-                  } else { // same category
-                    if (fieldName) {
+
+      const dataCalc = (snapshot, data) => {
+        let newFetch = 1;
+
+        if (data) {
+          if(data.length !== 0){ // if data found
+            if(!isSearch) {
+              if (oldCategory !== newCategory) { // new category
+                setProductsData(data);
+                oldCategory = newCategory;
+              } else { // same category
+                if (fieldName) { 
+                  setProductsData(prevState => (
+                    [ ...prevState, ...data]
+                  )) 
+                } else {
+                  if (!category) {  // get all products
+                    if (oldFetch === newFetch) {
                       setProductsData(prevState => (
                         [ ...prevState, ...data]
-                      ))  
-                    } else { // get all products
-                       if (!oldFetchAll) {
-                        setProductsData(data);
-                        oldFetchAll = true;
-                      } else {
-                        setProductsData(prevState => (
-                          [ ...prevState, ...data]
-                        ))
-                      }
+                      ))
+                    } else {
+                      setProductsData(data);
+                      oldFetch = newFetch;
                     }
-                    
-                  }
-                } else {
-                  if (oldSearch !== newSearch) { // new search
-                    setProductsData(data);
-                    oldSearch = newSearch;
-                  } else { // same search
+                  } else {
                     setProductsData(prevState => (
                       [ ...prevState, ...data]
-                    ))    
-                  }
-                }
-
-                setProductsLoading(false);
-                setProductsLoadingFetch(false);
-                setFetchLoading(false);
-                setIsProductsEmpty(false);
-                setFetchEnded(false);
-
-                const lastVisibleFetch = snapshot.docs[snapshot.docs.length - 1];
-                setFetchMore(() => () => {
-                  
-                  queryCalc(lastVisibleFetch); // fetch new docs starting from the last.
-                });
-
-              } else{ // if no data found
-                if(!isSearch){
-                  if (oldCategory !== newCategory) { // new category
-                    setProductsData(null);
-                    setProductsLoading(false);
-                    setProductsLoadingFetch(false);
-                    setIsProductsEmpty(true);
-                    setFetchLoading(false);
-                    oldCategory = newCategory;
-                  } else { // same category
-                    if(fetchLimit > 1) {
-                      setFetchEnded(true);
-                      setFetchLoading(false);
-                    } else {
-                      setProductsData(null);
-                      setProductsLoading(false);
-                      setProductsLoadingFetch(false);
-                      setIsProductsEmpty(true);
-                      setFetchLoading(false);
-                    }
-                  }
-                } else {
-                  setProductsLoading(false);
-                  setProductsLoadingFetch(false);
-                  
-                  if (oldSearch !== newSearch) { // new search
-                    setProductsData(null);
-                    setIsProductsEmpty(true);
-                    setFetchLoading(false);
-                    oldSearch = newSearch;
-                  } else { // same search
-                    setFetchEnded(true);
-                    setFetchLoading(false);
+                    )) 
                   }
                 }
               }
-          } else{
-            setProductsData(null);
+
+            } else {
+              if (oldSearch !== newSearch) { // new search
+                setProductsData(data);
+                oldSearch = newSearch;
+              } else { // same search
+                setProductsData(prevState => (
+                  [ ...prevState, ...data]
+                ))    
+              }
+            }
+
             setProductsLoading(false);
             setProductsLoadingFetch(false);
             setFetchLoading(false);
-            setIsProductsEmpty(true);
+            setIsProductsEmpty(false);
+            setFetchEnded(false);
+
+            const lastVisibleFetch = snapshot.docs[snapshot.docs.length - 1];
+            setFetchMore(() => () => {
+              
+              queryCalc(lastVisibleFetch); // fetch new docs starting from the last.
+            });
+
+          } else{ // if no data found
+            if(!isSearch){
+              if (oldCategory !== newCategory) { // new category
+                setProductsData(null);
+                setProductsLoading(false);
+                setProductsLoadingFetch(false);
+                setIsProductsEmpty(true);
+                setFetchLoading(false);
+                oldCategory = newCategory;
+              } else { // same category
+                if(fetchLimit > 1) {
+                  setFetchEnded(true);
+                  setFetchLoading(false);
+                } else {
+                  setProductsData(null);
+                  setProductsLoading(false);
+                  setProductsLoadingFetch(false);
+                  setIsProductsEmpty(true);
+                  setFetchLoading(false);
+                }
+              }
+            } else {
+              setProductsLoading(false);
+              setProductsLoadingFetch(false);
+              
+              if (oldSearch !== newSearch) { // new search
+                setProductsData(null);
+                setIsProductsEmpty(true);
+                setFetchLoading(false);
+                oldSearch = newSearch;
+              } else { // same search
+                setFetchEnded(true);
+                setFetchLoading(false);
+              }
+            }
           }
+        } else{
+          setProductsData(null);
+          setProductsLoading(false);
+          setProductsLoadingFetch(false);
+          setFetchLoading(false);
+          setIsProductsEmpty(true);
+        }
+      }
+
+
+      // Init
+      getDocs(q)
+        .then((snapshot) => {
+          const data = snapshot.docs.map((doc) => (
+            {...doc.data(), id: doc.id}
+          ));
+          data && dataCalc(snapshot, data);
         })
         .catch((err) => {
           setProductsError(err);
@@ -140,49 +154,12 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
           setFetchLoading(false);
           setIsProductsEmpty(true);
         });
-
-      } else {
-        const unsub = onSnapshot(q, (snapshot) => {
-          const data = snapshot.docs.map((doc) => (
-            {...doc.data(), id: doc.id}
-          ));
-          if (data) {
-            if(data.length !== 0){
-              setProductsData(data);
-              setProductsLoading(false);
-              setProductsLoadingFetch(false);
-              setFetchLoading(false);
-              setIsProductsEmpty(false);
-            } else{
-              setProductsData(null);
-              setProductsLoading(false);
-              setProductsLoadingFetch(false);
-              setFetchLoading(false);
-              setIsProductsEmpty(true);
-            }
-          } else{
-            setProductsData(null);
-            setProductsLoading(false);
-            setProductsLoadingFetch(false);
-            setFetchLoading(false);
-            setIsProductsEmpty(true);
-          }
-        }, (err) => {
-          setProductsError(err);
-          setProductsData(null);
-          setProductsLoading(false);
-          setProductsLoadingFetch(false);
-          setFetchLoading(false);
-          setIsProductsEmpty(true);
-        })
-  
-        return () => unsub();
-      }
     }
 
 
 
     const queryCalc = (lastVisibleFetch) => {
+      setFetchLoading(true);
       if(!lastVisibleFetch) {
         if( !fieldName && !fieldValue ){
           if (category) {
@@ -224,7 +201,6 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
       } else {
         if( !fieldName && !fieldValue ){
           if (category) {
-            setFetchLoading(true);
             let q = query(collRef, where("category", "in", category), orderBy("createdAt", "desc"), startAfter(lastVisibleFetch), limit(fetchLimit));
             querySend(q, category);
           } else {
@@ -234,11 +210,9 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
         } else {
           if(category) {
             if ( isSearch ) {
-              setFetchLoading(true);
               let q = query(collRef, where("category", "in", category), where(fieldName, ">=", fieldValue), where(fieldName, "<=", fieldValue + '\uf8ff'), orderBy("title"), orderBy("createdAt", "desc"), startAfter(lastVisibleFetch), limit(fetchLimit));
               querySend(q, category);
             } else {
-              setFetchLoading(true);
               let q = query(collRef, where("category", "in", category), where(fieldName, "array-contains", fieldValue), orderBy("createdAt", "desc"), startAfter(lastVisibleFetch), limit(fetchLimit));
               querySend(q, category);
             }
@@ -248,10 +222,10 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
               querySend(q, undefined, fieldValue);
             } else {
               if ( !isFeildArray ) {
-                let q = query(collRef, where(fieldName, "==", fieldValue), limit(fetchLimit))
+                let q = query(collRef, where(fieldName, "==", fieldValue), startAfter(lastVisibleFetch), limit(fetchLimit))
                 querySend(q);
               } else {
-                let q = query(collRef, where(fieldName, "array-contains", fieldValue), limit(fetchLimit))
+                let q = query(collRef, where(fieldName, "array-contains", fieldValue), startAfter(lastVisibleFetch), limit(fetchLimit))
                 querySend(q);
               }
             }
@@ -264,7 +238,7 @@ const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldVal
 
   }
 
-  return { fetchProducts, fetchMore, fetchLimit, fetchLoading, fetchEnded, productsData, productsLoading, productsLoadingFetch, productsError, isProductsEmpty }
+  return { fetchProducts, fetchMore, fetchLimit, fetchLoading, fetchEnded, productsData, setProductsData, productsLoading, productsLoadingFetch, productsError, isProductsEmpty }
 
 }
 

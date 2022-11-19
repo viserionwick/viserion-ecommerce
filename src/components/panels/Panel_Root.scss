@@ -94,4 +94,10 @@
             &:last-child{ margin-right: 0; }
         }
     }
+
+    .loading {
+        @include flexCenter;
+        width: 600px;
+        height: 90px;
+    }
 }

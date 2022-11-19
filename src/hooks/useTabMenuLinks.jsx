@@ -29,8 +29,6 @@ const useTabMenuLinks = () => {
     
     // Set Tab    
     useEffect(() => {
-        
-
         // Check Role
         if(userData && passRoles.length !== 0){
             if(passRoles.includes(userData.role)){
@@ -57,9 +55,11 @@ const useTabMenuLinks = () => {
             } else {
                 setTabMenuLinks(initLinks);
             }
+        } else {
+            setTabMenuLinks(initLinks);
         }
         
-    }, [userData]);
+    }, [userData, passRoles]);
 
     return { tabMenuLinks }
 }
