@@ -1,3 +1,8 @@
 [build]
     functions = "functions/"
     publish = "src"
+
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
