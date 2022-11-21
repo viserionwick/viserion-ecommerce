@@ -1,5 +1,4 @@
 // Style
-import { Link } from "react-router-dom";
 import useCookieConsent from "../../../hooks/useCookieConsent/useCookieConsent";
 import "../Page_Legal.scss";
 
@@ -10,7 +9,6 @@ const PAGE_LEGAL_COOKIE = () => {
   return (
     <div className="p-legal--content">
       <button onClick={openCookieSettings}>Cookie Settings</button>
-      <Link to="/test">test</Link>
       DO WE USE COOKIES OR OTHER ONLINE ADVERTISING TECHNOLOGIES?
  
 

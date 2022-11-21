@@ -6,7 +6,6 @@ import { usePanelContext } from '../contexts/Panel';
 
 // Panels
 import PANEL_MAILINGLIST from '../components/panels/mailing_list/Panel_MailingList';
-import PANEL_ORDERDETAILS from "../components/panels/auth/Panel_OrderDetails/Panel_OrderDetails";
 
 // Styles
 import "./Layout.scss"
@@ -43,7 +42,6 @@ const FOOTER = () => {
   const { showPanel } = usePanelContext();
   const mailingList = () => {
     showPanel(<PANEL_MAILINGLIST />, "Newsletter");
-    /* showPanel(<PANEL_ORDERDETAILS orderId={9999} itemIndex={0} />, "Order Details") */
   }
   
 

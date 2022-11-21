@@ -138,11 +138,7 @@ const App = () => {
       <Route path='/product/:id' element={
         <LAYOUT content={<PAGE_PRODUCT />} />
       } />
-
-
-      <Route path='/test' element={
-        <LAYOUT content={<TESTGROUND />} />
-      } />
+      
       </Routes>
     </>
   )

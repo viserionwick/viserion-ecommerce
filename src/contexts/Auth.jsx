@@ -245,7 +245,6 @@ export const AuthProvider = ({children}) => {
         updateDoc(doc(db, "users", auth.currentUser.uid), updateList)
         .then(() => {
             setAuthLoading(false);
-            /* window.location.reload(); */
         })
         .catch(err => setSignUpError(err.message))
         .finally(() => {

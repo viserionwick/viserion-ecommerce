@@ -2,9 +2,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-// Firebase
-import { serverTimestamp } from "firebase/firestore";
-
 // Contexts
 import { useAuthContext } from "../../contexts/Auth";
 import { usePanelContext } from "../../contexts/Panel";
@@ -267,7 +264,6 @@ const PAGE_CHECKOUT = () => {
 
     } else { 
       window.scrollTo(0, 0);
-      console.log("error");
 
       // Handle Loading
       setUploading(false);

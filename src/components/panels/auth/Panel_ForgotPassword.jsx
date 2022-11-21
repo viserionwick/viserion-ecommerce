@@ -45,11 +45,7 @@ const PANEL_FORGOTPASSWORD = () => {
         }
 
         if (isEmail) {
-            console.log("success");
             forgotPassword(email);
-        }
-        else { 
-            console.log("error");
         }
     }
 

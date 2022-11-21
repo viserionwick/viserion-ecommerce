@@ -1,10 +1,9 @@
 // Essentials
-import { useEffect, useState } from 'react';
-import { useAtom } from 'jotai';
-import { shoppingBagList_atom } from '../pages/bag/Page_ShoppingBag';
+import { useEffect } from 'react';
 
-// Components
-import LISTITEMS from '../components/products/ListItems';
+// Firebase
+import { analytics } from '../firebase/Config';
+import { logEvent } from 'firebase/analytics';
 
 // Style
 import "./testGround.scss"
@@ -12,14 +11,17 @@ import "./testGround.scss"
 
 const TESTGROUND = () => {
 
-  const [bagList, setBagList] = useAtom(shoppingBagList_atom);
+    useEffect(() => {
+        logEvent(analytics, 'testing', { test: 'yeah'});
+    }, []);
+
+    const testing = () => {
+      logEvent(analytics, 'testing', { test: 'yeah'});
+    }
 
   return (
     <div className='testGround'>
-      {
-        bagList &&
-        <LISTITEMS list={bagList}/>
-      }
+      <button onClick={testing}>test</button>
     </div>
   )
 }

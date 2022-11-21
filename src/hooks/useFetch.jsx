@@ -86,7 +86,6 @@ const useFetch = (collectionName, documentName, fieldName, fieldValue, isFeildAr
                 }
             } else{
                 const collRef = collection(db, collectionName);
-                /* const q = !orderListKey ? query(collRef) : query(collRef, orderBy(orderListKey)); */
                 setLoading(true);
                 setLoadingFetch(true);
                 const querySend = (q) => {

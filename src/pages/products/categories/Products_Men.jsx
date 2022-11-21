@@ -1,10 +1,6 @@
 // Essentials
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
-
-// Firebase
-import { db } from '../../../firebase/Config';
-import { addDoc, updateDoc, collection, setDoc, doc } from 'firebase/firestore';
+import { useParams } from "react-router-dom";
 
 // Hooks
 import useTabTitle from '../../../hooks/useTabTitle';
@@ -22,7 +18,6 @@ import "./Products.scss";
 const PRODUCTS_MEN = () => {
 
     useTabTitle("Men's Selection");
-    let navigate = useNavigate();
 
 
     // Category

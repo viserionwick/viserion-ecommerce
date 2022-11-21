@@ -134,7 +134,6 @@ const PANEL_ADDNEWADDRESS = () => {
 
     // Submit if there is no empty input
     if (!empty) {
-      /* handleCancel(); */
       
       if (formData.defaultAddress) {
         handleClose();

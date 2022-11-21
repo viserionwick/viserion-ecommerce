@@ -94,7 +94,6 @@ const PAGE_ORDERS = () => {
 
   const handleDetails = (order) => {
     showPanel(<PANEL_ORDERPLACED order={order} />, "Order Details");
-    console.log(order);
   }
 
   return (

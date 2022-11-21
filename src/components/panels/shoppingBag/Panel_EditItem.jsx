@@ -36,12 +36,7 @@ const PANEL_EDITITEM = ({itemProductId, itemIndex}) => {
   const [chooseSize, setChooseSize] = useState();
   const [preOrderDate, setPreOrderDate] = useState();
   const [itemStatus, setItemStatus] = useState();
-
-  /* useEffect(() => {
-    let list = [];
-    setShoppingBagList(list);
-  }, []);
- */
+  
   // Fetch Item
   const { fetchProducts, productsData } = useFetchProducts(); 
 
@@ -174,11 +169,11 @@ const PANEL_EDITITEM = ({itemProductId, itemIndex}) => {
   useEffect(() => {
     // Colors
     let allColors = [];
-
+    
     product && Object.keys(product.sizes).map(size => (
-        product.sizes[size].colors.map(color => (
-            allColors = [...allColors, color]
-        ))
+      product.sizes[size].colors && product.sizes[size].colors.map(color => (
+          allColors = [...allColors, color]
+      ))
     ));
 
     let uniqueColors = allColors.filter((val, id, array) => array.indexOf(val) === id);

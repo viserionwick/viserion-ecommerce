@@ -11,8 +11,6 @@ import "./Item.scss";
 
 const ITEM = ({title, price, images, status, url}) => {
 
-  /* console.log(images); */
-
   // Status Calculator
   const renderStatus = (param) => {
     switch (param) {
@@ -54,7 +52,7 @@ const ITEM = ({title, price, images, status, url}) => {
       <Link to={url ? "/product/" + url : "/"} className="buttonClear">
         <div className="item--info">
           {title ? <h1>{title}</h1> : null}
-          {price ? <h6>{"$ " + price/* .toFixed(2).replace(/[.,]00$/, "") */}</h6> : null}
+          {price ? <h6>{"$ " + price}</h6> : null}
           {status !== 1 ? <h6>{renderStatus(status)}</h6> : null}
         </div>
       </Link>      

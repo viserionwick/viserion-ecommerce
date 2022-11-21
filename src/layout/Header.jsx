@@ -2,9 +2,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
-// Contexts
-import { usePanelContext } from '../contexts/Panel';
-
 // Hooks
 import useFetch from '../hooks/useFetch';
 import useScrollEffect from '../hooks/useScrollEffect';
@@ -14,7 +11,7 @@ import "./Layout.scss";
 import "../pages/bag/Page_ShoppingBag.scss";
 
 // Images
-import Logo from "../images/Logo.png";
+import Logo from "../Logo.png";
 
 
 // Jotai
@@ -121,7 +118,6 @@ const HEADER = () => {
   
   const {data: mmData, loading: mmLoading} = useFetch("categories");
 
-  /* mmData && console.log(); */
   const mobileMenu = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

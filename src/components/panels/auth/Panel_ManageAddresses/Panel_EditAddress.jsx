@@ -158,7 +158,6 @@ const PANEL_EDITADDRESS = ({addressIndex}) => {
 
     // Submit if there is no empty input
     if (!empty) {
-      /* handleCancel(); */
       
       if (formData.defaultAddress) {
         if (userData ? userData.addressBook[addressIndex].defaultAddress : addressBook_guest[addressIndex].defaultAddress) {

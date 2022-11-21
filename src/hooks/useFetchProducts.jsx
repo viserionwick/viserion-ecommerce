@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 // Firebase
 import { db } from '../firebase/Config';
-import { collection, getDocs, onSnapshot, query, where, limit, startAfter, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, where, limit, startAfter, orderBy } from 'firebase/firestore';
 
 const useFetchProducts = (isFunc = true, fetchLimit, fieldName = false, fieldValue, isFeildArray = false, category = null, explore = false, isSearch = false) => {
 

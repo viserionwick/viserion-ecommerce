@@ -5,7 +5,7 @@ const PAGE_LEGAL_RETURN = () => {
   return (
     <div className="p-legal--content">
       RETURN POLICY
-BALENCIAGA – UNITED STATES
+BALENCIAGA - UNITED STATES
  
 
 1. RETURN / EXCHANGE CONDITIONS
