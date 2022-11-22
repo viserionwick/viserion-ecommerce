@@ -30,8 +30,6 @@ import PRODUCTS_MEN from "./pages/products/categories/Products_Men";
 import PRODUCTS_WOMEN from "./pages/products/categories/Products_Women";
 import PAGE_PRODUCT from './pages/products/Page_Product';
 
-import TESTGROUND from './testGround/testGround';
-
 //---------- Components ---------- END
 
 
