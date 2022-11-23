@@ -1,10 +1,11 @@
 // Essentials
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import VISERIONWICKINTRO from './ViserionWick/ViserionWickIntro';
 
 
 //---------- Components ---------- START
-import LAYOUT from './layout/Layout'
+import LAYOUT from './layout/Layout';
 
 // PAGES: Essentials
 import Index from './pages';
@@ -45,6 +46,9 @@ const App = () => {
 
   return (
     <>
+    <VISERIONWICKINTRO />
+
+
     <CookieConsentAsk />
 
     <Routes>

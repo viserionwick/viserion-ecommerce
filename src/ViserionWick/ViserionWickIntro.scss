@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+.viserionWickIntro {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(white, .4);
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 500px;
+        padding: 50px 30px 0 30px;
+        background: rgba(white, .72);
+        box-shadow: 0 0 50px 70px rgba(white, .72);
+
+
+        h1 {
+            font: 700 18pt Montserrat;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        h3 {
+            font: 300 10pt Montserrat;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: black;
+            color: white;
+            font: 700 11pt Montserrat;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: 100ms;
+
+            &:hover {
+                background: #383838;
+            }
+            &:active {
+                background: #525252;
+            }
+        }
+    }
+
+    #logo {
+        display: block;
+        position: relative;
+        width: 200px;
+        margin-bottom: 20px;
+        img {
+            width: 100%;
+        }
+    }
+}
