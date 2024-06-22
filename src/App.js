@@ -1,7 +1,6 @@
 // Essentials
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import VISERIONWICKINTRO from './ViserionWick/ViserionWickIntro';
 
 
 //---------- Components ---------- START
@@ -46,8 +45,6 @@ const App = () => {
 
   return (
     <>
-    <VISERIONWICKINTRO />
-
 
     <CookieConsentAsk />
 
